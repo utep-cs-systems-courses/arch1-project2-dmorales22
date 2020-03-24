@@ -1,44 +1,92 @@
 #include <msp430.h>
 #include "stateMachines.h"
 #include "led.h"
+#include "switches.h"
+#include "buzzer.h"
+#include "p1_interrupt_handler.h"
 
-char toggle_red()		/* always toggle! */
+static enum {START, STATE1, STATE2, STATE3, STATE4} current_state = START;
+
+char state_menu()
+{
+  if(SW1_switch_state_down) {
+    current_state = STATE1;
+    return 1;
+  }
+
+  if(SW2_switch_state_down) {
+    current_state = STATE2;
+    return 1;
+  }
+  
+  if(SW3_switch_state_down) {
+    current_state = STATE3;
+    return 1;
+  }
+
+  if(SW4_switch_state_down) {
+    current_state = STATE4;
+    return 1;
+  }
+
+  if(B_SW1_switch_state_down) {
+    current_state= START;
+    return 1;
+  }
+  return 0;
+}
+
+void flasher_light()		/* always toggle! */
 {
   static char state = 0;
 
   switch (state) {
   case 0:
-    red_led_state = 1;
+    led_update(1,0);
     state = 1;
     break;
   case 1:
-    red_led_state = 0;
+    led_update(0,1);
     state = 0;
     break;
   }
-  return 1;			/* always changes an led */
-}
-
-char toggle_green()	/* only toggle green if red is on!  */
-{
-  char changed = 0;
-  if (red_led_state) {
-    green_led_state ^= 1;
-    changed = 1;
-  }
-  return changed;
 }
 
 void state_advance()		/* alternate between toggling red & green */
 {
-  char changed = 0;  
+  char changed = 0;
+  blink_max = 50; 
+  switch (current_state) {
+  case START:
+    led_update(0,0);
+    buzzer_set_period(0); 
+    changed = state_menu();
+    break;
 
-  static enum {R=0, G=1} color = G;
-  switch (color) {
-  case R: changed = toggle_red(); color = G; break;
-  case G: changed = toggle_green(); color = R; break;
+  case STATE1: 
+    led_update(0,1);
+    buzzer_set_period(1500);
+    changed = state_menu();
+    break;
+
+  case STATE2:
+    led_update(1,0);
+    buzzer_set_period(500);
+    changed = state_menu();
+    break;
+
+  case STATE3:
+    blink_max = 50;
+    buzzer_set_period(200);
+    flasher_light();
+    changed = state_menu();
+    break;
+
+  case STATE4:
+    blink_max = 1;
+    buzzer_set_period(180);
+    flasher_light();
+    changed = state_menu();
+    break;
   }
-
-  leds_changed = changed;
-  led_update();
 }

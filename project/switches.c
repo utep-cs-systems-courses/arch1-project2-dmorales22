@@ -41,14 +41,12 @@ switch_init()			/* setup switch */
   P1OUT |= B_SWITCHES;		/* pull-ups for switches */
   P1DIR &= ~B_SWITCHES;		/* set switches' bits for input */
   switch_update_interrupt_sense_bottom();
-  led_update();
   
   P2REN |= SWITCHES;		/* enables resistors for switches */
   P2IE = SWITCHES;		/* enable interrupts from switches */
   P2OUT |= SWITCHES;		/* pull-ups for switches */
   P2DIR &= ~SWITCHES;		/* set switches' bits for input */
   switch_update_interrupt_sense_top();
-  led_update();
   
 }
 
@@ -66,11 +64,8 @@ switch_interrupt_handler()
   SW3_switch_state_changed = SW3 ? 1: 1;
   SW4_switch_state_changed = SW4 ? 1: 1;
   
-  led_update(); 
-  
   char p1val = switch_update_interrupt_sense_bottom();
   B_SW1_switch_state_down = (p1val & B_SW1) ? 0 : 1; /* 0 when SW1 is up */
   B_SW1_switch_state_changed = B_SW1 ? 1: 1;
   
-  led_update();
 }

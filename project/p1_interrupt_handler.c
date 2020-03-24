@@ -2,6 +2,7 @@
 #include "switches.h"
 #include "stateMachines.h" 
 
+char blink_max;
 /* Switch on P1 (S2) */
 
 void
@@ -23,9 +24,8 @@ __interrupt_vec(PORT1_VECTOR) Port_1(){
 void
 __interrupt_vec(WDT_VECTOR) WDT(){	/* 250 interrupts/sec */
   static char blink_count = 0;
-  if (++blink_count == 6) {
+  if (++blink_count == blink_max) {
     state_advance();
     blink_count = 0;
   }
 }
-
