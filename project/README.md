@@ -4,9 +4,10 @@ It's a simple implementation of the buzzy toy. Pressing buttons the board change
 ## How to Use It
 You need to compile timerLib. So follow the steps below:
 
-make install
-make
+* make install
+
+* make
 
 ## To Clean Up
 
-make clean
+* make clean
