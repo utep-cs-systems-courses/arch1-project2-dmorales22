@@ -4,6 +4,7 @@
 #include "switches.h"
 #include "buzzer.h"
 #include "p1_interrupt_handler.h"
+#include "bottom_switch_a.h"
 
 static enum {START, STATE1, STATE2, STATE3, STATE4} current_state = START;
 
@@ -24,8 +25,10 @@ void state_menu()
   if(SW4_switch_state_down) { //If switch 4 on the board is pressed then it changes state to STATE4. 
     current_state = STATE4;
   }
-
-  if(B_SW1_switch_state_down) { //If the switch on the main board is pressed then it changes state to START state. 
+  
+  //current_state = b_sw1_s(B_SW1_switch_state_down, current_state, START);
+  
+  if(B_SW1_switch_state_down) { //If the switch on the main board is pressed then it changes state to START state
     current_state = START;
   }
 }
