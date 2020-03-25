@@ -4,9 +4,11 @@ It's a simple implementation of the buzzy toy. Pressing buttons the board change
 ## How to Use It
 You need to compile timerLib. So follow the steps below:
 
-**make install
+**make install**
 
-**make
+**make**
+
+Then load **project.elf** into your MSP430. 
 
 ## What it Does
 As stated before, pressing the buttons just generate different frequencies and led light patterns. 
@@ -25,4 +27,4 @@ Top switch 4: Switches to STATE4 when pressed. Red and green LEDs are on but dim
 ## To Clean Up
 To removes .o and .elf files:
 
-**make clean
+**make clean**
