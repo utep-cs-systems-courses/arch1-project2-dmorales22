@@ -26,11 +26,13 @@ void state_menu()
     current_state = STATE4;
   }
   
-  //current_state = b_sw1_s(B_SW1_switch_state_down, current_state, START);
+  current_state = b_sw1_s(B_SW1_switch_state_down, current_state, START); //Gets bottom switch state from assembly function. C coded-variant below:
   
+  /*
   if(B_SW1_switch_state_down) { //If the switch on the main board is pressed then it changes state to START state
     current_state = START;
   }
+  */
 }
 
 void flasher_light()		//Uses switch cases to alternate green and red.
