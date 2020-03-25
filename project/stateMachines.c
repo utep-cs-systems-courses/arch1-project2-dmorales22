@@ -63,26 +63,26 @@ void state_advance()		/* alternate between toggling red & green */
 
   case STATE1: //STATE1 sets buzzer to a frequency and red light on.
     led_update(0,1); //Only red light on
-    buzzer_set_period(1500);
+    buzzer_set_period(2000);
     state_menu();
     break;
 
   case STATE2: //STATE2 sets buzzer to a frequency and green light on.
     led_update(1,0);
-    buzzer_set_period(500);
+    buzzer_set_period(1000);
     state_menu();
     break;
 
   case STATE3:
     blink_max = 50; //Sets the blink_max value for blinking lights. 
-    buzzer_set_period(200);
+    buzzer_set_period(500);
     flasher_light(); //Runs method to allow for blinking lights
     state_menu();
     break;
 
   case STATE4:
     blink_max = 1; //Sets the blink_max value lowest value to dim the lights.
-    buzzer_set_period(180);
+    buzzer_set_period(200);
     flasher_light(); //Runs flasher method to dim the leds.
     state_menu();
     break;
