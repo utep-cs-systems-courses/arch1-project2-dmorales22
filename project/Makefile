@@ -12,14 +12,13 @@ AR              = msp430-elf-ar
 all: project.elf 
 
 #additional rules for files
-project.elf: ${COMMON_OBJECTS} projectMain.o stateMachines.o p1_interrupt_handler.o led.o switches.o buzzer.o lib/libTimer.a bottom_switch_a.o
+project.elf: ${COMMON_OBJECTS} projectMain.o stateMachines.o bottom_switch_a.o p1_interrupt_handler.o led.o switches.o buzzer.o lib/libTimer.a
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^
 
 load: project.elf
 	msp430loader.sh project.elf
 
 clean:
-	rm -f *.o *.elf
-
+	rm -rf *.o *.elf h lib timerLib/clocksTimer.o timerLib/sr.o
 install:
 	(cd timerLib; make install)

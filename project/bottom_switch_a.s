@@ -1,9 +1,9 @@
 	.arch msp430g2553
 	.p2align 1,0
 	.text
+	.data
 
 	.global b_sw1_s
-	
 b_sw1_s:
 	cmp.b #0, r12 ; if(B_SW1_switch_state_down != 0)
 	jnz end  
