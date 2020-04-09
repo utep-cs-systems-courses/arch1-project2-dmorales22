@@ -4,12 +4,16 @@
 #include "switches.h"
 #include "buzzer.h"
 #include "p1_interrupt_handler.h"
-#include "bottom_switch_a.h"
+#include "state_advance_a.h"
 
-static enum {START, STATE1, STATE2, STATE3, STATE4} current_state = START;
+static enum {START = 0, STATE1 = 1, STATE2 = 2, STATE3 = 3, STATE4 = 4} current_state = START;
 
 void state_menu()
 {
+  if(B_SW1_switch_state_down){
+    current_state = START;
+  }
+
   if(SW1_switch_state_down) { //If switch 1 on the board is pressed then it changes state to STATE1. 
     current_state = STATE1;
   }
@@ -25,14 +29,6 @@ void state_menu()
   if(SW4_switch_state_down) { //If switch 4 on the board is pressed then it changes state to STATE4. 
     current_state = STATE4;
   }
-  
-  current_state = b_sw1_s(B_SW1_switch_state_down, current_state, START); //Gets bottom switch state from assembly function. C coded-variant below:
-  
-  /*
-  if(B_SW1_switch_state_down) { //If the switch on the main board is pressed then it changes state to START state
-    current_state = START;
-  }
-  */
 }
 
 void flasher_light()		//Uses switch cases to alternate green and red.
@@ -51,8 +47,11 @@ void flasher_light()		//Uses switch cases to alternate green and red.
   }
 }
 
-void state_advance()		/* alternate between toggling red & green */
+void state_advance()		/* changes the  */
 {
+  state_advance_s(current_state);
+  
+  /*
   blink_max = 50; 
   switch (current_state) {
   case START: //START state has no lights on and buzzer is silent(to reduce headaches).
@@ -87,4 +86,5 @@ void state_advance()		/* alternate between toggling red & green */
     state_menu();
     break;
   }
+  */
 }
