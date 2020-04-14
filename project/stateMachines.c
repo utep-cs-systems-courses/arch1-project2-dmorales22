@@ -6,7 +6,12 @@
 #include "p1_interrupt_handler.h"
 #include "state_advance_a.h"
 
-static enum {START = 0, STATE1 = 1, STATE2 = 2, STATE3 = 3, STATE4 = 4} current_state = START;
+int current_state = 0;
+int START = 0;
+int STATE1 = 1;
+int STATE2 = 2;
+int STATE3 = 3;
+int STATE4 = 4; 
 
 void state_menu()
 {
@@ -47,9 +52,9 @@ void flasher_light()		//Uses switch cases to alternate green and red.
   }
 }
 
-void state_advance()		/* changes the  */
+void state_advance()		/* changes the devices functions with states using switch cases*/
 {
-  state_advance_s(current_state);
+  state_advance_s(); //This calls the assembly-variant of code below in state_advance_a.s
   
   /*
   blink_max = 50; 
